@@ -21,7 +21,6 @@ func NewProduct(rps repos.InitRepoProduct) *Products {
 }
 
 func (pro *Products) GetAll(w http.ResponseWriter, r *http.Request) {
-
 	data, err := pro.Rp.FindAll()
 
 	if err != nil {
@@ -34,6 +33,7 @@ func (pro *Products) GetAll(w http.ResponseWriter, r *http.Request) {
 func (pro *Products) Add(w http.ResponseWriter, r *http.Request) {
 	var body models.Product
 	err := json.NewDecoder(r.Body).Decode(&body)
+
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 	}
@@ -53,7 +53,6 @@ func (pro *Products) Add(w http.ResponseWriter, r *http.Request) {
 }
 
 func (pro *Products) Delete(w http.ResponseWriter, r *http.Request) {
-
 	vars := mux.Vars(r)
 	err := pro.Rp.Remove(vars["id"])
 
@@ -67,12 +66,12 @@ func (pro *Products) Delete(w http.ResponseWriter, r *http.Request) {
 func (pro *Products) Update(w http.ResponseWriter, r *http.Request) {
 	var body models.Product
 	err := json.NewDecoder(r.Body).Decode(&body)
+
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 	}
 
 	vars := mux.Vars(r)
-
 	data := models.CreateProduct()
 	data.Name = body.Name
 	data.Price = body.Price
@@ -88,7 +87,6 @@ func (pro *Products) Update(w http.ResponseWriter, r *http.Request) {
 }
 
 func (pro *Products) SearchbyName(w http.ResponseWriter, r *http.Request) {
-
 	vars := r.URL.Query()
 	name_prod := strings.Join(vars["name"], " ")
 	data, err := pro.Rp.SearchProductName(name_prod)
@@ -102,7 +100,6 @@ func (pro *Products) SearchbyName(w http.ResponseWriter, r *http.Request) {
 }
 
 func (pro *Products) SearchbyCategory(w http.ResponseWriter, r *http.Request) {
-
 	vars := r.URL.Query()
 	name_category := strings.Join(vars["category"], " ")
 	data, err := pro.Rp.SearchProductCategory(name_category)
@@ -116,7 +113,6 @@ func (pro *Products) SearchbyCategory(w http.ResponseWriter, r *http.Request) {
 }
 
 func (pro *Products) GetbyCategory(w http.ResponseWriter, r *http.Request) {
-
 	data, err := pro.Rp.FindbyCategory()
 
 	if err != nil {
@@ -127,7 +123,6 @@ func (pro *Products) GetbyCategory(w http.ResponseWriter, r *http.Request) {
 }
 
 func (pro *Products) GetbyDateASC(w http.ResponseWriter, r *http.Request) {
-
 	data, err := pro.Rp.FindbyDateASC()
 
 	if err != nil {
@@ -138,7 +133,6 @@ func (pro *Products) GetbyDateASC(w http.ResponseWriter, r *http.Request) {
 }
 
 func (pro *Products) GetbyDateDESC(w http.ResponseWriter, r *http.Request) {
-
 	data, err := pro.Rp.FindbyDateDESC()
 
 	if err != nil {
@@ -149,7 +143,6 @@ func (pro *Products) GetbyDateDESC(w http.ResponseWriter, r *http.Request) {
 }
 
 func (pro *Products) GetbyPriceDESC(w http.ResponseWriter, r *http.Request) {
-
 	data, err := pro.Rp.FindbyPriceDESC()
 
 	if err != nil {
@@ -160,7 +153,6 @@ func (pro *Products) GetbyPriceDESC(w http.ResponseWriter, r *http.Request) {
 }
 
 func (pro *Products) GetbyPriceASC(w http.ResponseWriter, r *http.Request) {
-
 	data, err := pro.Rp.FindbyPriceASC()
 
 	if err != nil {

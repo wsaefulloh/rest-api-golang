@@ -24,9 +24,13 @@ func New() *mux.Router {
 	cateRep := repos.NewCategory()
 	category := controllers.Categories{Rp: *cateRep}
 
+	histoRep := repos.NewHistory()
+	history := controllers.Histories{Rp: *histoRep}
+
 	UserRoute(mainRutes, &users)
 	ProductRoute(mainRutes, &products)
 	CategoryRoute(mainRutes, &category)
+	HistoryRoute(mainRutes, &history)
 	return mainRutes
 }
 
