@@ -2,7 +2,9 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/gorilla/mux"
 
@@ -83,4 +85,87 @@ func (pro *Products) Update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Write([]byte("Data berhasil diedit"))
+}
+
+func (pro *Products) SearchbyName(w http.ResponseWriter, r *http.Request) {
+
+	vars := r.URL.Query()
+	name_prod := strings.Join(vars["name"], " ")
+	data, err := pro.Rp.SearchProductName(name_prod)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}
+
+	fmt.Println(name_prod)
+	json.NewEncoder(w).Encode(&data)
+}
+
+func (pro *Products) SearchbyCategory(w http.ResponseWriter, r *http.Request) {
+
+	vars := r.URL.Query()
+	name_category := strings.Join(vars["category"], " ")
+	data, err := pro.Rp.SearchProductCategory(name_category)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}
+
+	fmt.Println(name_category)
+	json.NewEncoder(w).Encode(&data)
+}
+
+func (pro *Products) GetbyCategory(w http.ResponseWriter, r *http.Request) {
+
+	data, err := pro.Rp.FindbyCategory()
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}
+
+	json.NewEncoder(w).Encode(&data)
+}
+
+func (pro *Products) GetbyDateASC(w http.ResponseWriter, r *http.Request) {
+
+	data, err := pro.Rp.FindbyDateASC()
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}
+
+	json.NewEncoder(w).Encode(&data)
+}
+
+func (pro *Products) GetbyDateDESC(w http.ResponseWriter, r *http.Request) {
+
+	data, err := pro.Rp.FindbyDateDESC()
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}
+
+	json.NewEncoder(w).Encode(&data)
+}
+
+func (pro *Products) GetbyPriceDESC(w http.ResponseWriter, r *http.Request) {
+
+	data, err := pro.Rp.FindbyPriceDESC()
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}
+
+	json.NewEncoder(w).Encode(&data)
+}
+
+func (pro *Products) GetbyPriceASC(w http.ResponseWriter, r *http.Request) {
+
+	data, err := pro.Rp.FindbyPriceASC()
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}
+
+	json.NewEncoder(w).Encode(&data)
 }

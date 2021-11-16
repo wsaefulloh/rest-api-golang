@@ -8,6 +8,13 @@ import (
 func ProductRoute(r *mux.Router, cr *controllers.Products) {
 	route := r.PathPrefix("/products").Subrouter()
 	route.HandleFunc("/", cr.GetAll).Methods("GET")
+	route.HandleFunc("/date/desc", cr.GetbyDateDESC).Methods("GET")
+	route.HandleFunc("/date/asc", cr.GetbyDateASC).Methods("GET")
+	route.HandleFunc("/price/desc", cr.GetbyPriceDESC).Methods("GET")
+	route.HandleFunc("/price/asc", cr.GetbyPriceASC).Methods("GET")
+	route.HandleFunc("/category", cr.GetbyCategory).Methods("GET")
+	route.HandleFunc("/search/name", cr.SearchbyName).Methods("GET")
+	route.HandleFunc("/search/category", cr.SearchbyCategory).Methods("GET")
 	route.HandleFunc("/", cr.Add).Methods("POST")
 	route.HandleFunc("/{id}", cr.Delete).Methods("DELETE")
 	route.HandleFunc("/{id}", cr.Update).Methods("PUT")

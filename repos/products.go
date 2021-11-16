@@ -79,3 +79,164 @@ func (r *InitRepoProduct) Edit(prod *models.Product, id string) error {
 
 	return nil
 }
+
+func (r *InitRepoProduct) SearchProductName(name string) (*models.Products, error) {
+	query := `SELECT public.products.id, public.products.name, public.products.price, public.categories.name,public.products.created_at, public.products.update_at FROM public.products INNER JOIN public.categories ON public.products.category = public.categories.id WHERE public.products.name ILIKE '%' || $1 || '%' ORDER BY update_at DESC`
+	// query := `SELECT * FROM public.products`
+	rows, err := r.db.Query(query, name)
+
+	defer rows.Close()
+	if err != nil {
+		return nil, err
+	}
+	var data models.Products
+	var prod models.Product
+
+	for rows.Next() {
+		err := rows.Scan(&prod.Id, &prod.Name, &prod.Price, &prod.Category, &prod.CreatedAt, &prod.UpdateAt)
+		if err != nil {
+			return nil, err
+		}
+		data = append(data, prod)
+	}
+
+	return &data, nil
+}
+
+func (r *InitRepoProduct) SearchProductCategory(name string) (*models.Products, error) {
+	query := `SELECT public.products.id, public.products.name, public.products.price, public.categories.name,public.products.created_at, public.products.update_at FROM public.products INNER JOIN public.categories ON public.products.category = public.categories.id WHERE public.categories.name ILIKE '%' || $1 || '%' ORDER BY update_at DESC`
+	// query := `SELECT * FROM public.products`
+	rows, err := r.db.Query(query, name)
+
+	defer rows.Close()
+	if err != nil {
+		return nil, err
+	}
+	var data models.Products
+	var prod models.Product
+
+	for rows.Next() {
+		err := rows.Scan(&prod.Id, &prod.Name, &prod.Price, &prod.Category, &prod.CreatedAt, &prod.UpdateAt)
+		if err != nil {
+			return nil, err
+		}
+		data = append(data, prod)
+	}
+
+	return &data, nil
+}
+
+func (r *InitRepoProduct) FindbyCategory() (*models.Products, error) {
+	query := `SELECT public.products.id, public.products.name, public.products.price, public.categories.name,public.products.created_at, public.products.update_at FROM public.products INNER JOIN public.categories ON public.products.category = public.categories.id ORDER BY public.categories.name ASC`
+	// query := `SELECT * FROM public.products`
+	rows, err := r.db.Query(query)
+
+	defer rows.Close()
+	if err != nil {
+		return nil, err
+	}
+	var data models.Products
+	var prod models.Product
+
+	for rows.Next() {
+		err := rows.Scan(&prod.Id, &prod.Name, &prod.Price, &prod.Category, &prod.CreatedAt, &prod.UpdateAt)
+		if err != nil {
+			return nil, err
+		}
+		data = append(data, prod)
+	}
+
+	return &data, nil
+}
+
+func (r *InitRepoProduct) FindbyDateDESC() (*models.Products, error) {
+	query := `SELECT public.products.id, public.products.name, public.products.price, public.categories.name,public.products.created_at, public.products.update_at FROM public.products INNER JOIN public.categories ON public.products.category = public.categories.id ORDER BY update_at DESC`
+	// query := `SELECT * FROM public.products`
+	rows, err := r.db.Query(query)
+
+	defer rows.Close()
+	if err != nil {
+		return nil, err
+	}
+	var data models.Products
+	var prod models.Product
+
+	for rows.Next() {
+		err := rows.Scan(&prod.Id, &prod.Name, &prod.Price, &prod.Category, &prod.CreatedAt, &prod.UpdateAt)
+		if err != nil {
+			return nil, err
+		}
+		data = append(data, prod)
+	}
+
+	return &data, nil
+}
+
+func (r *InitRepoProduct) FindbyDateASC() (*models.Products, error) {
+	query := `SELECT public.products.id, public.products.name, public.products.price, public.categories.name,public.products.created_at, public.products.update_at FROM public.products INNER JOIN public.categories ON public.products.category = public.categories.id ORDER BY update_at ASC`
+	// query := `SELECT * FROM public.products`
+	rows, err := r.db.Query(query)
+
+	defer rows.Close()
+	if err != nil {
+		return nil, err
+	}
+	var data models.Products
+	var prod models.Product
+
+	for rows.Next() {
+		err := rows.Scan(&prod.Id, &prod.Name, &prod.Price, &prod.Category, &prod.CreatedAt, &prod.UpdateAt)
+		if err != nil {
+			return nil, err
+		}
+		data = append(data, prod)
+	}
+
+	return &data, nil
+}
+
+func (r *InitRepoProduct) FindbyPriceDESC() (*models.Products, error) {
+	query := `SELECT public.products.id, public.products.name, public.products.price, public.categories.name,public.products.created_at, public.products.update_at FROM public.products INNER JOIN public.categories ON public.products.category = public.categories.id ORDER BY CAST(public.products.price AS DOUBLE PRECISION) DESC`
+	// query := `SELECT * FROM public.products`
+	rows, err := r.db.Query(query)
+
+	defer rows.Close()
+	if err != nil {
+		return nil, err
+	}
+	var data models.Products
+	var prod models.Product
+
+	for rows.Next() {
+		err := rows.Scan(&prod.Id, &prod.Name, &prod.Price, &prod.Category, &prod.CreatedAt, &prod.UpdateAt)
+		if err != nil {
+			return nil, err
+		}
+		data = append(data, prod)
+	}
+
+	return &data, nil
+}
+
+func (r *InitRepoProduct) FindbyPriceASC() (*models.Products, error) {
+	query := `SELECT public.products.id, public.products.name, public.products.price, public.categories.name,public.products.created_at, public.products.update_at FROM public.products INNER JOIN public.categories ON public.products.category = public.categories.id ORDER BY CAST(public.products.price AS DOUBLE PRECISION) ASC`
+	// query := `SELECT * FROM public.products`
+	rows, err := r.db.Query(query)
+
+	defer rows.Close()
+	if err != nil {
+		return nil, err
+	}
+	var data models.Products
+	var prod models.Product
+
+	for rows.Next() {
+		err := rows.Scan(&prod.Id, &prod.Name, &prod.Price, &prod.Category, &prod.CreatedAt, &prod.UpdateAt)
+		if err != nil {
+			return nil, err
+		}
+		data = append(data, prod)
+	}
+
+	return &data, nil
+}

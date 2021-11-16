@@ -12,14 +12,14 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:9000/products/ HTTP/1.1
+GET http://localhost:9000/products/search?name=mie HTTP/1.1
 
 ###
 POST http://localhost:9000/products/ HTTP/1.1
 Content-Type: application/json
 
 {
-    "Name": "Nasi Goreng",
+    "Name": "Mie Goreng",
     "Price": 8000,
     "Category": "1"
 }
@@ -28,13 +28,13 @@ Content-Type: application/json
 DELETE http://localhost:9000/products/2 HTTP/1.1
 
 ###
-PUT http://localhost:9000/products/4 HTTP/1.1
+PUT http://localhost:9000/products/7 HTTP/1.1
 Content-Type: application/json
 
 {
     "Name": "Nasi Goreng",
-    "Price": 80000,
-    "Category": 2
+    "Price": 110000,
+    "Category": "2"
 }
 
 
