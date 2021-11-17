@@ -19,6 +19,7 @@ func NewCategory(rps repos.InitRepoCategory) *Categories {
 }
 
 func (cate *Categories) GetAll(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	data, err := cate.Rp.FindAll()
 
 	if err != nil {
@@ -29,6 +30,7 @@ func (cate *Categories) GetAll(w http.ResponseWriter, r *http.Request) {
 }
 
 func (cate *Categories) Add(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	var body models.Category
 	err := json.NewDecoder(r.Body).Decode(&body)
 
@@ -49,6 +51,7 @@ func (cate *Categories) Add(w http.ResponseWriter, r *http.Request) {
 }
 
 func (cate *Categories) Delete(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	vars := mux.Vars(r)
 	err := cate.Rp.Remove(vars["id"])
 
@@ -60,6 +63,7 @@ func (cate *Categories) Delete(w http.ResponseWriter, r *http.Request) {
 }
 
 func (cate *Categories) Update(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	var body models.Category
 	err := json.NewDecoder(r.Body).Decode(&body)
 

@@ -19,6 +19,7 @@ func NewHistory(rps repos.InitRepoHistory) *Histories {
 }
 
 func (histo *Histories) GetAll(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	data, err := histo.Rp.FindAll()
 
 	if err != nil {
@@ -29,6 +30,7 @@ func (histo *Histories) GetAll(w http.ResponseWriter, r *http.Request) {
 }
 
 func (histo *Histories) Add(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	var body models.History
 	err := json.NewDecoder(r.Body).Decode(&body)
 
@@ -53,6 +55,7 @@ func (histo *Histories) Add(w http.ResponseWriter, r *http.Request) {
 }
 
 func (histo *Histories) Delete(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	vars := mux.Vars(r)
 	err := histo.Rp.Remove(vars["id"])
 
@@ -64,6 +67,7 @@ func (histo *Histories) Delete(w http.ResponseWriter, r *http.Request) {
 }
 
 func (histo *Histories) Update(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	var body models.History
 	err := json.NewDecoder(r.Body).Decode(&body)
 

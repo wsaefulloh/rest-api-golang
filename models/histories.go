@@ -6,13 +6,13 @@ import (
 )
 
 type History struct {
-	Id      int
-	Invoice string
-	Cashier string
-	Date    string
-	Order   string
-	Count   int
-	Total   int
+	Id      int    `json:"id"`
+	Invoice string `json:"invoice"`
+	Cashier string `json:"cashier"`
+	Date    string `json:"date"`
+	Order   string `json:"order"`
+	Count   int    `json:"count"`
+	Total   int    `json:"total"`
 }
 
 type Histories []History

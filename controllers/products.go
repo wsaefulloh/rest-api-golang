@@ -21,6 +21,7 @@ func NewProduct(rps repos.InitRepoProduct) *Products {
 }
 
 func (pro *Products) GetAll(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	data, err := pro.Rp.FindAll()
 
 	if err != nil {
@@ -31,6 +32,7 @@ func (pro *Products) GetAll(w http.ResponseWriter, r *http.Request) {
 }
 
 func (pro *Products) Add(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	var body models.Product
 	err := json.NewDecoder(r.Body).Decode(&body)
 
@@ -53,6 +55,7 @@ func (pro *Products) Add(w http.ResponseWriter, r *http.Request) {
 }
 
 func (pro *Products) Delete(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	vars := mux.Vars(r)
 	err := pro.Rp.Remove(vars["id"])
 
@@ -64,6 +67,7 @@ func (pro *Products) Delete(w http.ResponseWriter, r *http.Request) {
 }
 
 func (pro *Products) Update(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	var body models.Product
 	err := json.NewDecoder(r.Body).Decode(&body)
 
@@ -87,6 +91,7 @@ func (pro *Products) Update(w http.ResponseWriter, r *http.Request) {
 }
 
 func (pro *Products) SearchbyName(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	vars := r.URL.Query()
 	name_prod := strings.Join(vars["name"], " ")
 	data, err := pro.Rp.SearchProductName(name_prod)
@@ -100,6 +105,7 @@ func (pro *Products) SearchbyName(w http.ResponseWriter, r *http.Request) {
 }
 
 func (pro *Products) SearchbyCategory(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	vars := r.URL.Query()
 	name_category := strings.Join(vars["category"], " ")
 	data, err := pro.Rp.SearchProductCategory(name_category)
@@ -113,6 +119,7 @@ func (pro *Products) SearchbyCategory(w http.ResponseWriter, r *http.Request) {
 }
 
 func (pro *Products) GetbyCategory(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	data, err := pro.Rp.FindbyCategory()
 
 	if err != nil {
@@ -123,6 +130,7 @@ func (pro *Products) GetbyCategory(w http.ResponseWriter, r *http.Request) {
 }
 
 func (pro *Products) GetbyDateASC(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	data, err := pro.Rp.FindbyDateASC()
 
 	if err != nil {
@@ -133,6 +141,7 @@ func (pro *Products) GetbyDateASC(w http.ResponseWriter, r *http.Request) {
 }
 
 func (pro *Products) GetbyDateDESC(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	data, err := pro.Rp.FindbyDateDESC()
 
 	if err != nil {
@@ -143,6 +152,7 @@ func (pro *Products) GetbyDateDESC(w http.ResponseWriter, r *http.Request) {
 }
 
 func (pro *Products) GetbyPriceDESC(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	data, err := pro.Rp.FindbyPriceDESC()
 
 	if err != nil {
@@ -153,6 +163,7 @@ func (pro *Products) GetbyPriceDESC(w http.ResponseWriter, r *http.Request) {
 }
 
 func (pro *Products) GetbyPriceASC(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	data, err := pro.Rp.FindbyPriceASC()
 
 	if err != nil {

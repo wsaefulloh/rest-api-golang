@@ -3,12 +3,12 @@ package models
 import "time"
 
 type Product struct {
-	Id        int
-	Name      string
-	Price     int
-	Category  string
-	CreatedAt time.Time
-	UpdateAt  time.Time
+	Id        int       `json:"id"`
+	Name      string    `json:"name"`
+	Price     int       `json:"price"`
+	Category  string    `json:"category"`
+	CreatedAt time.Time `json:"create_at"`
+	UpdateAt  time.Time `json:"update_at"`
 }
 
 type Products []Product

@@ -3,10 +3,10 @@ package models
 import "time"
 
 type Category struct {
-	Id        int
-	Name      string
-	CreatedAt time.Time
-	UpdateAt  time.Time
+	Id        int       `json:"id"`
+	Name      string    `json:"name"`
+	CreatedAt time.Time `json:"create_at"`
+	UpdateAt  time.Time `json:"update_at"`
 }
 
 type Categories []Category
