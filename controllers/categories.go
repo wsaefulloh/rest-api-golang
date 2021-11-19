@@ -19,6 +19,7 @@ func NewCategory(rps repos.RepoCategory) *categories {
 }
 
 func (cate *categories) GetAll(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Controll-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	data, err := cate.rp.FindAll()
 
@@ -30,6 +31,7 @@ func (cate *categories) GetAll(w http.ResponseWriter, r *http.Request) {
 }
 
 func (cate *categories) Add(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Controll-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	var body models.Category
 	err := json.NewDecoder(r.Body).Decode(&body)
@@ -51,6 +53,7 @@ func (cate *categories) Add(w http.ResponseWriter, r *http.Request) {
 }
 
 func (cate *categories) Delete(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Controll-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	vars := mux.Vars(r)
 	err := cate.rp.Remove(vars["id"])
@@ -63,6 +66,7 @@ func (cate *categories) Delete(w http.ResponseWriter, r *http.Request) {
 }
 
 func (cate *categories) Update(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Controll-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	var body models.Category
 	err := json.NewDecoder(r.Body).Decode(&body)

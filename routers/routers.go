@@ -8,18 +8,24 @@ import (
 )
 
 func New() *mux.Router {
-	mainRutes := mux.NewRouter()
+	r := mux.NewRouter()
 
 	//inisialisasi endpoint
-	mainRutes.HandleFunc("/", simpleHandlers).Methods("GET")
+	r.HandleFunc("/", simpleHandlers).Methods(http.MethodGet)
+	mainRutes := r.PathPrefix("/api/v1").Subrouter().StrictSlash(false)
+	// mainRutes.HandleFunc("/foo", fooHandlers).Methods(http.MethodGet)
 
 	//inisialisasi dbms
 	dbms, _ := db.New()
 
 	UserRoute(mainRutes, dbms)
+	AuthRoute(mainRutes, dbms)
 	ProductRoute(mainRutes, dbms)
 	CategoryRoute(mainRutes, dbms)
 	HistoryRoute(mainRutes, dbms)
+
+	mainRutes.Use(mux.CORSMethodMiddleware(mainRutes))
+
 	return mainRutes
 }
 

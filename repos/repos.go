@@ -12,6 +12,7 @@ type RepoCategory interface {
 type RepoUser interface {
 	FindAll() (*models.Users, error)
 	Save(user *models.User) error
+	GetPass(username string) (string, error)
 }
 
 type RepoProduct interface {

@@ -55,3 +55,26 @@ func (r *initRepo) Save(user *models.User) error {
 
 	return nil
 }
+
+func (r *initRepo) GetPass(username string) (string, error) {
+	query := `SELECT "password" FROM public.users WHERE "username"=$1`
+
+	rows, err := r.db.Query(query, username)
+
+	if err != nil {
+		return "", err
+	}
+
+	defer rows.Close()
+
+	var password string
+
+	for rows.Next() {
+		err := rows.Scan(&password)
+		if err != nil {
+			return "", err
+		}
+	}
+
+	return password, nil
+}

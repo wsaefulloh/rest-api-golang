@@ -2,8 +2,10 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
+	"github.com/wsaefulloh/rest-api-go/helpers"
 	"github.com/wsaefulloh/rest-api-go/models"
 	"github.com/wsaefulloh/rest-api-go/repos"
 )
@@ -17,6 +19,8 @@ func New(rps repos.RepoUser) *users {
 }
 
 func (us *users) GetAll(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Controll-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
 
 	data, err := us.rp.FindAll()
 
@@ -28,6 +32,8 @@ func (us *users) GetAll(w http.ResponseWriter, r *http.Request) {
 }
 
 func (us *users) Add(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Controll-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "application/json")
 	var body models.User
 	err := json.NewDecoder(r.Body).Decode(&body)
 	if err != nil {
@@ -38,7 +44,11 @@ func (us *users) Add(w http.ResponseWriter, r *http.Request) {
 	data.Name = body.Name
 	data.UserName = body.UserName
 	data.Email = body.Email
-	data.Password = body.Password
+	newPass, errPass := helpers.HashPassword(body.Password)
+	if errPass != nil {
+		fmt.Println("gagal hashing")
+	}
+	data.Password = newPass
 
 	us.rp.Save(data)
 

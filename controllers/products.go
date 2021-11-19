@@ -21,6 +21,7 @@ func NewProduct(rps repos.RepoProduct) *products {
 }
 
 func (pro *products) GetAll(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Controll-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	data, err := pro.rp.FindAll()
 
@@ -32,6 +33,7 @@ func (pro *products) GetAll(w http.ResponseWriter, r *http.Request) {
 }
 
 func (pro *products) Add(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Controll-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	var body models.Product
 	err := json.NewDecoder(r.Body).Decode(&body)
@@ -55,6 +57,7 @@ func (pro *products) Add(w http.ResponseWriter, r *http.Request) {
 }
 
 func (pro *products) Delete(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Controll-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	vars := mux.Vars(r)
 	err := pro.rp.Remove(vars["id"])
@@ -91,6 +94,7 @@ func (pro *products) Update(w http.ResponseWriter, r *http.Request) {
 }
 
 func (pro *products) SearchbyName(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Controll-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	vars := r.URL.Query()
 	name_prod := strings.Join(vars["name"], " ")
@@ -105,6 +109,7 @@ func (pro *products) SearchbyName(w http.ResponseWriter, r *http.Request) {
 }
 
 func (pro *products) SearchbyCategory(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Controll-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	vars := r.URL.Query()
 	name_category := strings.Join(vars["category"], " ")
@@ -119,6 +124,7 @@ func (pro *products) SearchbyCategory(w http.ResponseWriter, r *http.Request) {
 }
 
 func (pro *products) GetbyCategory(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Controll-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	data, err := pro.rp.FindbyCategory()
 
@@ -130,6 +136,7 @@ func (pro *products) GetbyCategory(w http.ResponseWriter, r *http.Request) {
 }
 
 func (pro *products) GetbyDateASC(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Controll-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	data, err := pro.rp.FindbyDateASC()
 
@@ -141,6 +148,7 @@ func (pro *products) GetbyDateASC(w http.ResponseWriter, r *http.Request) {
 }
 
 func (pro *products) GetbyDateDESC(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Controll-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	data, err := pro.rp.FindbyDateDESC()
 
@@ -152,6 +160,7 @@ func (pro *products) GetbyDateDESC(w http.ResponseWriter, r *http.Request) {
 }
 
 func (pro *products) GetbyPriceDESC(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Controll-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	data, err := pro.rp.FindbyPriceDESC()
 
@@ -163,6 +172,7 @@ func (pro *products) GetbyPriceDESC(w http.ResponseWriter, r *http.Request) {
 }
 
 func (pro *products) GetbyPriceASC(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Controll-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	data, err := pro.rp.FindbyPriceASC()
 

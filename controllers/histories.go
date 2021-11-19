@@ -19,6 +19,7 @@ func NewHistory(rps repos.RepoHistory) *histories {
 }
 
 func (histo *histories) GetAll(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Controll-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	data, err := histo.rp.FindAll()
 
@@ -30,6 +31,7 @@ func (histo *histories) GetAll(w http.ResponseWriter, r *http.Request) {
 }
 
 func (histo *histories) Add(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Controll-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	var body models.History
 	err := json.NewDecoder(r.Body).Decode(&body)
@@ -55,6 +57,7 @@ func (histo *histories) Add(w http.ResponseWriter, r *http.Request) {
 }
 
 func (histo *histories) Delete(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Controll-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	vars := mux.Vars(r)
 	err := histo.rp.Remove(vars["id"])
@@ -67,6 +70,7 @@ func (histo *histories) Delete(w http.ResponseWriter, r *http.Request) {
 }
 
 func (histo *histories) Update(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Controll-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	var body models.History
 	err := json.NewDecoder(r.Body).Decode(&body)
