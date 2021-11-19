@@ -4,27 +4,28 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/wsaefulloh/rest-api-go/configs/db"
 	"github.com/wsaefulloh/rest-api-go/models"
 )
 
-type InitRepoCategory struct {
+type initRepoCategory struct {
 	db *sql.DB
 }
 
-func NewCategory() *InitRepoCategory {
-	db, _ := db.New()
-	return &InitRepoCategory{db}
+// constructer
+func NewCategory(dbms *sql.DB) *initRepoCategory {
+	return &initRepoCategory{dbms}
 }
 
-func (r *InitRepoCategory) FindAll() (*models.Categories, error) {
+func (r *initRepoCategory) FindAll() (*models.Categories, error) {
 	query := `SELECT * FROM public.categories`
 	rows, err := r.db.Query(query)
 
-	defer rows.Close()
 	if err != nil {
 		return nil, err
 	}
+
+	defer rows.Close()
+
 	var data models.Categories
 	var cate models.Category
 	var cateId int
@@ -45,7 +46,7 @@ func (r *InitRepoCategory) FindAll() (*models.Categories, error) {
 	return &data, nil
 }
 
-func (r *InitRepoCategory) Save(cate *models.Category) error {
+func (r *initRepoCategory) Save(cate *models.Category) error {
 	query := `INSERT INTO public.categories("name", created_at, update_at) VALUES($1, $2, $3)`
 	stm, err := r.db.Prepare(query)
 
@@ -62,7 +63,7 @@ func (r *InitRepoCategory) Save(cate *models.Category) error {
 	return nil
 }
 
-func (r *InitRepoCategory) Remove(id string) error {
+func (r *initRepoCategory) Remove(id string) error {
 	query := `DELETE FROM public.categories WHERE id = $1`
 
 	_, err := r.db.Exec(query, id)
@@ -74,7 +75,7 @@ func (r *InitRepoCategory) Remove(id string) error {
 	return nil
 }
 
-func (r *InitRepoCategory) Edit(cate *models.Category, id string) error {
+func (r *initRepoCategory) Edit(cate *models.Category, id string) error {
 	query := `UPDATE public.categories SET "name" = $1, update_at = $2  WHERE id = $3`
 	_, err := r.db.Exec(query, cate.Name, cate.UpdateAt, id)
 

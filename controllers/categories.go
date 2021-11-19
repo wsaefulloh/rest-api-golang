@@ -10,17 +10,17 @@ import (
 	"github.com/wsaefulloh/rest-api-go/repos"
 )
 
-type Categories struct {
-	Rp repos.InitRepoCategory
+type categories struct {
+	rp repos.RepoCategory
 }
 
-func NewCategory(rps repos.InitRepoCategory) *Categories {
-	return &Categories{rps}
+func NewCategory(rps repos.RepoCategory) *categories {
+	return &categories{rps}
 }
 
-func (cate *Categories) GetAll(w http.ResponseWriter, r *http.Request) {
+func (cate *categories) GetAll(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	data, err := cate.Rp.FindAll()
+	data, err := cate.rp.FindAll()
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -29,7 +29,7 @@ func (cate *Categories) GetAll(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(&data)
 }
 
-func (cate *Categories) Add(w http.ResponseWriter, r *http.Request) {
+func (cate *categories) Add(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var body models.Category
 	err := json.NewDecoder(r.Body).Decode(&body)
@@ -41,7 +41,7 @@ func (cate *Categories) Add(w http.ResponseWriter, r *http.Request) {
 	data := models.CreateCategory()
 	data.Name = body.Name
 
-	cate.Rp.Save(data)
+	cate.rp.Save(data)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -50,10 +50,10 @@ func (cate *Categories) Add(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Data berhasil disimpan"))
 }
 
-func (cate *Categories) Delete(w http.ResponseWriter, r *http.Request) {
+func (cate *categories) Delete(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	vars := mux.Vars(r)
-	err := cate.Rp.Remove(vars["id"])
+	err := cate.rp.Remove(vars["id"])
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -62,7 +62,7 @@ func (cate *Categories) Delete(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Data berhasil dihapus"))
 }
 
-func (cate *Categories) Update(w http.ResponseWriter, r *http.Request) {
+func (cate *categories) Update(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var body models.Category
 	err := json.NewDecoder(r.Body).Decode(&body)
@@ -76,7 +76,7 @@ func (cate *Categories) Update(w http.ResponseWriter, r *http.Request) {
 	data := models.CreateCategory()
 	data.Name = body.Name
 
-	cate.Rp.Edit(data, vars["id"])
+	cate.rp.Edit(data, vars["id"])
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)

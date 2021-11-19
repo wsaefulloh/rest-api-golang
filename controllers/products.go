@@ -12,17 +12,17 @@ import (
 	"github.com/wsaefulloh/rest-api-go/repos"
 )
 
-type Products struct {
-	Rp repos.InitRepoProduct
+type products struct {
+	rp repos.RepoProduct
 }
 
-func NewProduct(rps repos.InitRepoProduct) *Products {
-	return &Products{rps}
+func NewProduct(rps repos.RepoProduct) *products {
+	return &products{rps}
 }
 
-func (pro *Products) GetAll(w http.ResponseWriter, r *http.Request) {
+func (pro *products) GetAll(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	data, err := pro.Rp.FindAll()
+	data, err := pro.rp.FindAll()
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -31,7 +31,7 @@ func (pro *Products) GetAll(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(&data)
 }
 
-func (pro *Products) Add(w http.ResponseWriter, r *http.Request) {
+func (pro *products) Add(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var body models.Product
 	err := json.NewDecoder(r.Body).Decode(&body)
@@ -45,7 +45,7 @@ func (pro *Products) Add(w http.ResponseWriter, r *http.Request) {
 	data.Price = body.Price
 	data.Category = body.Category
 
-	pro.Rp.Save(data)
+	pro.rp.Save(data)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -54,10 +54,10 @@ func (pro *Products) Add(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Data berhasil disimpan"))
 }
 
-func (pro *Products) Delete(w http.ResponseWriter, r *http.Request) {
+func (pro *products) Delete(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	vars := mux.Vars(r)
-	err := pro.Rp.Remove(vars["id"])
+	err := pro.rp.Remove(vars["id"])
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -66,7 +66,7 @@ func (pro *Products) Delete(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Data berhasil dihapus"))
 }
 
-func (pro *Products) Update(w http.ResponseWriter, r *http.Request) {
+func (pro *products) Update(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var body models.Product
 	err := json.NewDecoder(r.Body).Decode(&body)
@@ -81,7 +81,7 @@ func (pro *Products) Update(w http.ResponseWriter, r *http.Request) {
 	data.Price = body.Price
 	data.Category = body.Category
 
-	pro.Rp.Edit(data, vars["id"])
+	pro.rp.Edit(data, vars["id"])
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -90,11 +90,11 @@ func (pro *Products) Update(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Data berhasil diedit"))
 }
 
-func (pro *Products) SearchbyName(w http.ResponseWriter, r *http.Request) {
+func (pro *products) SearchbyName(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	vars := r.URL.Query()
 	name_prod := strings.Join(vars["name"], " ")
-	data, err := pro.Rp.SearchProductName(name_prod)
+	data, err := pro.rp.SearchProductName(name_prod)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -104,11 +104,11 @@ func (pro *Products) SearchbyName(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(&data)
 }
 
-func (pro *Products) SearchbyCategory(w http.ResponseWriter, r *http.Request) {
+func (pro *products) SearchbyCategory(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	vars := r.URL.Query()
 	name_category := strings.Join(vars["category"], " ")
-	data, err := pro.Rp.SearchProductCategory(name_category)
+	data, err := pro.rp.SearchProductCategory(name_category)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -118,9 +118,9 @@ func (pro *Products) SearchbyCategory(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(&data)
 }
 
-func (pro *Products) GetbyCategory(w http.ResponseWriter, r *http.Request) {
+func (pro *products) GetbyCategory(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	data, err := pro.Rp.FindbyCategory()
+	data, err := pro.rp.FindbyCategory()
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -129,9 +129,9 @@ func (pro *Products) GetbyCategory(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(&data)
 }
 
-func (pro *Products) GetbyDateASC(w http.ResponseWriter, r *http.Request) {
+func (pro *products) GetbyDateASC(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	data, err := pro.Rp.FindbyDateASC()
+	data, err := pro.rp.FindbyDateASC()
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -140,9 +140,9 @@ func (pro *Products) GetbyDateASC(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(&data)
 }
 
-func (pro *Products) GetbyDateDESC(w http.ResponseWriter, r *http.Request) {
+func (pro *products) GetbyDateDESC(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	data, err := pro.Rp.FindbyDateDESC()
+	data, err := pro.rp.FindbyDateDESC()
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -151,9 +151,9 @@ func (pro *Products) GetbyDateDESC(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(&data)
 }
 
-func (pro *Products) GetbyPriceDESC(w http.ResponseWriter, r *http.Request) {
+func (pro *products) GetbyPriceDESC(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	data, err := pro.Rp.FindbyPriceDESC()
+	data, err := pro.rp.FindbyPriceDESC()
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -162,9 +162,9 @@ func (pro *Products) GetbyPriceDESC(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(&data)
 }
 
-func (pro *Products) GetbyPriceASC(w http.ResponseWriter, r *http.Request) {
+func (pro *products) GetbyPriceASC(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	data, err := pro.Rp.FindbyPriceASC()
+	data, err := pro.rp.FindbyPriceASC()
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)

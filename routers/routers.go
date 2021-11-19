@@ -4,8 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/wsaefulloh/rest-api-go/controllers"
-	"github.com/wsaefulloh/rest-api-go/repos"
+	"github.com/wsaefulloh/rest-api-go/configs/db"
 )
 
 func New() *mux.Router {
@@ -14,23 +13,13 @@ func New() *mux.Router {
 	//inisialisasi endpoint
 	mainRutes.HandleFunc("/", simpleHandlers).Methods("GET")
 
-	//inisialisasi repos
-	userRep := repos.New()
-	users := controllers.Users{Rp: *userRep}
+	//inisialisasi dbms
+	dbms, _ := db.New()
 
-	prodRep := repos.NewProduct()
-	products := controllers.Products{Rp: *prodRep}
-
-	cateRep := repos.NewCategory()
-	category := controllers.Categories{Rp: *cateRep}
-
-	histoRep := repos.NewHistory()
-	history := controllers.Histories{Rp: *histoRep}
-
-	UserRoute(mainRutes, &users)
-	ProductRoute(mainRutes, &products)
-	CategoryRoute(mainRutes, &category)
-	HistoryRoute(mainRutes, &history)
+	UserRoute(mainRutes, dbms)
+	ProductRoute(mainRutes, dbms)
+	CategoryRoute(mainRutes, dbms)
+	HistoryRoute(mainRutes, dbms)
 	return mainRutes
 }
 

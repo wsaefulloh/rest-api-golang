@@ -10,17 +10,17 @@ import (
 	"github.com/wsaefulloh/rest-api-go/repos"
 )
 
-type Histories struct {
-	Rp repos.InitRepoHistory
+type histories struct {
+	rp repos.RepoHistory
 }
 
-func NewHistory(rps repos.InitRepoHistory) *Histories {
-	return &Histories{rps}
+func NewHistory(rps repos.RepoHistory) *histories {
+	return &histories{rps}
 }
 
-func (histo *Histories) GetAll(w http.ResponseWriter, r *http.Request) {
+func (histo *histories) GetAll(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	data, err := histo.Rp.FindAll()
+	data, err := histo.rp.FindAll()
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -29,7 +29,7 @@ func (histo *Histories) GetAll(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(&data)
 }
 
-func (histo *Histories) Add(w http.ResponseWriter, r *http.Request) {
+func (histo *histories) Add(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var body models.History
 	err := json.NewDecoder(r.Body).Decode(&body)
@@ -45,7 +45,7 @@ func (histo *Histories) Add(w http.ResponseWriter, r *http.Request) {
 	data.Count = body.Count
 	data.Total = 0
 
-	histo.Rp.Save(data)
+	histo.rp.Save(data)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -54,10 +54,10 @@ func (histo *Histories) Add(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Data berhasil disimpan"))
 }
 
-func (histo *Histories) Delete(w http.ResponseWriter, r *http.Request) {
+func (histo *histories) Delete(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	vars := mux.Vars(r)
-	err := histo.Rp.Remove(vars["id"])
+	err := histo.rp.Remove(vars["id"])
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -66,7 +66,7 @@ func (histo *Histories) Delete(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Data berhasil dihapus"))
 }
 
-func (histo *Histories) Update(w http.ResponseWriter, r *http.Request) {
+func (histo *histories) Update(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var body models.History
 	err := json.NewDecoder(r.Body).Decode(&body)
@@ -84,7 +84,7 @@ func (histo *Histories) Update(w http.ResponseWriter, r *http.Request) {
 	data.Count = body.Count
 	data.Total = 0
 
-	histo.Rp.Edit(data, vars["id"])
+	histo.rp.Edit(data, vars["id"])
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
