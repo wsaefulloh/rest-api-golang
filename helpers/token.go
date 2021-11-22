@@ -10,12 +10,14 @@ var mySigninKey = []byte("secrects")
 
 type claims struct {
 	Username string `json:"username"`
+	Role     string `json:"role"`
 	jwt.StandardClaims
 }
 
-func NewToken(username string) *claims {
+func NewToken(username, role string) *claims {
 	return &claims{
 		Username: username,
+		Role:     role,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour * 5).Unix(),
 		},
@@ -38,5 +40,5 @@ func CheckToken(token string) (bool, string) {
 	}
 
 	claims := tokens.Claims.(*claims)
-	return tokens.Valid, claims.Username
+	return tokens.Valid, claims.Role
 }

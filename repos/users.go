@@ -28,7 +28,7 @@ func (r *initRepo) FindAll() (*models.Users, error) {
 	var users models.User
 
 	for rows.Next() {
-		err := rows.Scan(&users.Id, &users.Name, &users.UserName, &users.Email, &users.Password, &users.CreatedAt, &users.UpdateAt)
+		err := rows.Scan(&users.Id, &users.Name, &users.UserName, &users.Email, &users.Role, &users.Password, &users.CreatedAt, &users.UpdateAt)
 		if err != nil {
 			return nil, err
 		}
@@ -39,7 +39,7 @@ func (r *initRepo) FindAll() (*models.Users, error) {
 }
 
 func (r *initRepo) Save(user *models.User) error {
-	query := `INSERT INTO public.users("name", username, email, "password", created_at, update_at) VALUES($1, $2, $3, $4, $5, $6)`
+	query := `INSERT INTO public.users("name", username, email, "role", "password", created_at, update_at) VALUES($1, $2, $3, $4, $5, $6, $7)`
 
 	stm, err := r.db.Prepare(query)
 
@@ -47,7 +47,7 @@ func (r *initRepo) Save(user *models.User) error {
 		return err
 	}
 
-	_, err = stm.Exec(user.Name, user.UserName, user.Email, user.Password, user.CreatedAt, user.UpdateAt)
+	_, err = stm.Exec(user.Name, user.UserName, user.Email, user.Role, user.Password, user.CreatedAt, user.UpdateAt)
 
 	if err != nil {
 		return err
@@ -77,4 +77,73 @@ func (r *initRepo) GetPass(username string) (string, error) {
 	}
 
 	return password, nil
+}
+
+func (r *initRepo) GetEmail(username string) (string, error) {
+	query := `SELECT "email" FROM public.users WHERE "username"=$1`
+
+	rows, err := r.db.Query(query, username)
+
+	if err != nil {
+		return "", err
+	}
+
+	defer rows.Close()
+
+	var email string
+
+	for rows.Next() {
+		err := rows.Scan(&email)
+		if err != nil {
+			return "", err
+		}
+	}
+
+	return email, nil
+}
+
+func (r *initRepo) GetUsername(username string) (string, error) {
+	query := `SELECT "username" FROM public.users WHERE "username"=$1`
+
+	rows, err := r.db.Query(query, username)
+
+	if err != nil {
+		return "", err
+	}
+
+	defer rows.Close()
+
+	var user string
+
+	for rows.Next() {
+		err := rows.Scan(&user)
+		if err != nil {
+			return "", err
+		}
+	}
+
+	return user, nil
+}
+
+func (r *initRepo) GetRole(username string) (string, error) {
+	query := `SELECT "role" FROM public.users WHERE "username"=$1`
+
+	rows, err := r.db.Query(query, username)
+
+	if err != nil {
+		return "", err
+	}
+
+	defer rows.Close()
+
+	var role string
+
+	for rows.Next() {
+		err := rows.Scan(&role)
+		if err != nil {
+			return "", err
+		}
+	}
+
+	return role, nil
 }

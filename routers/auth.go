@@ -15,4 +15,5 @@ func AuthRoute(r *mux.Router, db *sql.DB) {
 
 	route := r.PathPrefix("/auth").Subrouter()
 	route.HandleFunc("/", cr.Login).Methods(http.MethodPost)
+	route.HandleFunc("/chek", cr.OpenToken).Methods(http.MethodGet)
 }
