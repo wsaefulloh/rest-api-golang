@@ -1,19 +1,15 @@
 package main
 
 import (
-	"fmt"
 	"log"
-	"net/http"
+	"os"
 
-	"github.com/wsaefulloh/rest-api-go/routers"
+	"github.com/wsaefulloh/rest-api-go/configs/command"
 )
 
 func main() {
-	mainRutes := routers.New()
-
-	fmt.Println("Server running on port 9000")
-	err := http.ListenAndServe(":9000", mainRutes)
+	err := command.Run(os.Args[1:])
 	if err != nil {
-		log.Fatal("Error API")
+		log.Fatal("Unable to run app")
 	}
 }

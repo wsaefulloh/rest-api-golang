@@ -6,6 +6,7 @@ import (
 
 	"github.com/gorilla/mux"
 
+	"github.com/wsaefulloh/rest-api-go/helpers"
 	"github.com/wsaefulloh/rest-api-go/models"
 	"github.com/wsaefulloh/rest-api-go/repos"
 )
@@ -24,10 +25,13 @@ func (histo *histories) GetAll(w http.ResponseWriter, r *http.Request) {
 	data, err := histo.rp.FindAll()
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		// http.Error(w, err.Error(), http.StatusBadRequest)
+		helpers.Respone(w, err.Error(), 500, true)
+		return
 	}
 
-	json.NewEncoder(w).Encode(&data)
+	// json.NewEncoder(w).Encode(&data)
+	helpers.Respone(w, &data, 200, false)
 }
 
 func (histo *histories) Add(w http.ResponseWriter, r *http.Request) {
@@ -37,7 +41,9 @@ func (histo *histories) Add(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&body)
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		// http.Error(w, err.Error(), http.StatusBadRequest)
+		helpers.Respone(w, err.Error(), 500, true)
+		return
 	}
 
 	data := models.CreateHistory()
@@ -50,10 +56,13 @@ func (histo *histories) Add(w http.ResponseWriter, r *http.Request) {
 	histo.rp.Save(data)
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		// http.Error(w, err.Error(), http.StatusBadRequest)
+		helpers.Respone(w, err.Error(), 500, true)
+		return
 	}
 
-	w.Write([]byte("Data berhasil disimpan"))
+	// w.Write([]byte("Data berhasil disimpan"))
+	helpers.Respone(w, "History berhasil ditambahkan", 201, false)
 }
 
 func (histo *histories) Delete(w http.ResponseWriter, r *http.Request) {
@@ -63,10 +72,13 @@ func (histo *histories) Delete(w http.ResponseWriter, r *http.Request) {
 	err := histo.rp.Remove(vars["id"])
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		// http.Error(w, err.Error(), http.StatusBadRequest)
+		helpers.Respone(w, err.Error(), 500, true)
+		return
 	}
 
-	w.Write([]byte("Data berhasil dihapus"))
+	// w.Write([]byte("Data berhasil dihapus"))
+	helpers.Respone(w, "History berhasil dihapus", 200, false)
 }
 
 func (histo *histories) Update(w http.ResponseWriter, r *http.Request) {
@@ -76,7 +88,9 @@ func (histo *histories) Update(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&body)
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		// http.Error(w, err.Error(), http.StatusBadRequest)
+		helpers.Respone(w, err.Error(), 500, true)
+		return
 	}
 
 	vars := mux.Vars(r)
@@ -91,8 +105,11 @@ func (histo *histories) Update(w http.ResponseWriter, r *http.Request) {
 	histo.rp.Edit(data, vars["id"])
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		// http.Error(w, err.Error(), http.StatusBadRequest)
+		helpers.Respone(w, err.Error(), 500, true)
+		return
 	}
 
-	w.Write([]byte("Data berhasil diedit"))
+	// w.Write([]byte("Data berhasil diedit"))
+	helpers.Respone(w, "History berhasil diupdate", 200, false)
 }

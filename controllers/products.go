@@ -2,12 +2,12 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strings"
 
 	"github.com/gorilla/mux"
 
+	"github.com/wsaefulloh/rest-api-go/helpers"
 	"github.com/wsaefulloh/rest-api-go/models"
 	"github.com/wsaefulloh/rest-api-go/repos"
 )
@@ -26,10 +26,13 @@ func (pro *products) GetAll(w http.ResponseWriter, r *http.Request) {
 	data, err := pro.rp.FindAll()
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		// http.Error(w, err.Error(), http.StatusBadRequest)
+		helpers.Respone(w, err.Error(), 500, true)
+		return
 	}
 
-	json.NewEncoder(w).Encode(&data)
+	// json.NewEncoder(w).Encode(&data)
+	helpers.Respone(w, &data, 200, false)
 }
 
 func (pro *products) Add(w http.ResponseWriter, r *http.Request) {
@@ -39,7 +42,9 @@ func (pro *products) Add(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&body)
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		// http.Error(w, err.Error(), http.StatusBadRequest)
+		helpers.Respone(w, err.Error(), 500, true)
+		return
 	}
 
 	data := models.CreateProduct()
@@ -50,10 +55,13 @@ func (pro *products) Add(w http.ResponseWriter, r *http.Request) {
 	pro.rp.Save(data)
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		// http.Error(w, err.Error(), http.StatusBadRequest)
+		helpers.Respone(w, err.Error(), 500, true)
+		return
 	}
 
-	w.Write([]byte("Data berhasil disimpan"))
+	// w.Write([]byte("Data berhasil disimpan"))
+	helpers.Respone(w, "Product berhasil disimpan", 201, false)
 }
 
 func (pro *products) Delete(w http.ResponseWriter, r *http.Request) {
@@ -63,10 +71,13 @@ func (pro *products) Delete(w http.ResponseWriter, r *http.Request) {
 	err := pro.rp.Remove(vars["id"])
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		// http.Error(w, err.Error(), http.StatusBadRequest)
+		helpers.Respone(w, err.Error(), 500, true)
+		return
 	}
 
-	w.Write([]byte("Data berhasil dihapus"))
+	// w.Write([]byte("Data berhasil dihapus"))
+	helpers.Respone(w, "Product berhasil dihapus", 200, false)
 }
 
 func (pro *products) Update(w http.ResponseWriter, r *http.Request) {
@@ -75,7 +86,9 @@ func (pro *products) Update(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&body)
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		// http.Error(w, err.Error(), http.StatusBadRequest)
+		helpers.Respone(w, err.Error(), 500, true)
+		return
 	}
 
 	vars := mux.Vars(r)
@@ -87,10 +100,13 @@ func (pro *products) Update(w http.ResponseWriter, r *http.Request) {
 	pro.rp.Edit(data, vars["id"])
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		// http.Error(w, err.Error(), http.StatusBadRequest)
+		helpers.Respone(w, err.Error(), 500, true)
+		return
 	}
 
-	w.Write([]byte("Data berhasil diedit"))
+	// w.Write([]byte("Data berhasil diedit"))
+	helpers.Respone(w, "Data berhasil diupdate", 200, false)
 }
 
 func (pro *products) SearchbyName(w http.ResponseWriter, r *http.Request) {
@@ -101,11 +117,14 @@ func (pro *products) SearchbyName(w http.ResponseWriter, r *http.Request) {
 	data, err := pro.rp.SearchProductName(name_prod)
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		// http.Error(w, err.Error(), http.StatusBadRequest)
+		helpers.Respone(w, err.Error(), 500, true)
+		return
 	}
 
-	fmt.Println(name_prod)
-	json.NewEncoder(w).Encode(&data)
+	// fmt.Println(name_prod)
+	// json.NewEncoder(w).Encode(&data)
+	helpers.Respone(w, &data, 200, false)
 }
 
 func (pro *products) SearchbyCategory(w http.ResponseWriter, r *http.Request) {
@@ -116,11 +135,14 @@ func (pro *products) SearchbyCategory(w http.ResponseWriter, r *http.Request) {
 	data, err := pro.rp.SearchProductCategory(name_category)
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		// http.Error(w, err.Error(), http.StatusBadRequest)
+		helpers.Respone(w, err.Error(), 500, true)
+		return
 	}
 
-	fmt.Println(name_category)
-	json.NewEncoder(w).Encode(&data)
+	// fmt.Println(name_category)
+	// json.NewEncoder(w).Encode(&data)
+	helpers.Respone(w, &data, 200, false)
 }
 
 func (pro *products) GetbyCategory(w http.ResponseWriter, r *http.Request) {
@@ -129,7 +151,9 @@ func (pro *products) GetbyCategory(w http.ResponseWriter, r *http.Request) {
 	data, err := pro.rp.FindbyCategory()
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		// http.Error(w, err.Error(), http.StatusBadRequest)
+		helpers.Respone(w, err.Error(), 500, true)
+		return
 	}
 
 	json.NewEncoder(w).Encode(&data)
@@ -141,10 +165,13 @@ func (pro *products) GetbyDateASC(w http.ResponseWriter, r *http.Request) {
 	data, err := pro.rp.FindbyDateASC()
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		// http.Error(w, err.Error(), http.StatusBadRequest)
+		helpers.Respone(w, err.Error(), 500, true)
+		return
 	}
 
-	json.NewEncoder(w).Encode(&data)
+	// json.NewEncoder(w).Encode(&data)
+	helpers.Respone(w, &data, 200, false)
 }
 
 func (pro *products) GetbyDateDESC(w http.ResponseWriter, r *http.Request) {
@@ -153,10 +180,13 @@ func (pro *products) GetbyDateDESC(w http.ResponseWriter, r *http.Request) {
 	data, err := pro.rp.FindbyDateDESC()
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		// http.Error(w, err.Error(), http.StatusBadRequest)
+		helpers.Respone(w, err.Error(), 500, true)
+		return
 	}
 
-	json.NewEncoder(w).Encode(&data)
+	// json.NewEncoder(w).Encode(&data)
+	helpers.Respone(w, &data, 200, false)
 }
 
 func (pro *products) GetbyPriceDESC(w http.ResponseWriter, r *http.Request) {
@@ -165,10 +195,13 @@ func (pro *products) GetbyPriceDESC(w http.ResponseWriter, r *http.Request) {
 	data, err := pro.rp.FindbyPriceDESC()
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		// http.Error(w, err.Error(), http.StatusBadRequest)
+		helpers.Respone(w, err.Error(), 500, true)
+		return
 	}
 
-	json.NewEncoder(w).Encode(&data)
+	// json.NewEncoder(w).Encode(&data)
+	helpers.Respone(w, &data, 200, false)
 }
 
 func (pro *products) GetbyPriceASC(w http.ResponseWriter, r *http.Request) {
@@ -177,8 +210,11 @@ func (pro *products) GetbyPriceASC(w http.ResponseWriter, r *http.Request) {
 	data, err := pro.rp.FindbyPriceASC()
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		// http.Error(w, err.Error(), http.StatusBadRequest)
+		helpers.Respone(w, err.Error(), 500, true)
+		return
 	}
 
-	json.NewEncoder(w).Encode(&data)
+	// json.NewEncoder(w).Encode(&data)
+	helpers.Respone(w, &data, 200, false)
 }

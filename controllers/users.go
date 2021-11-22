@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/wsaefulloh/rest-api-go/helpers"
@@ -25,10 +24,11 @@ func (us *users) GetAll(w http.ResponseWriter, r *http.Request) {
 	data, err := us.rp.FindAll()
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		helpers.Respone(w, err.Error(), 500, true)
+		return
 	}
 
-	json.NewEncoder(w).Encode(&data)
+	helpers.Respone(w, &data, 200, false)
 }
 
 func (us *users) Add(w http.ResponseWriter, r *http.Request) {
@@ -37,7 +37,9 @@ func (us *users) Add(w http.ResponseWriter, r *http.Request) {
 	var body models.User
 	err := json.NewDecoder(r.Body).Decode(&body)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		// http.Error(w, err.Error(), http.StatusBadRequest)
+		helpers.Respone(w, err.Error(), 500, true)
+		return
 	}
 
 	data := models.CreateUser()
@@ -46,15 +48,18 @@ func (us *users) Add(w http.ResponseWriter, r *http.Request) {
 	data.Email = body.Email
 	newPass, errPass := helpers.HashPassword(body.Password)
 	if errPass != nil {
-		fmt.Println("gagal hashing")
+		// fmt.Println("gagal hashing")
+		helpers.Respone(w, err.Error(), 500, true)
+		return
 	}
 	data.Password = newPass
 
 	us.rp.Save(data)
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		helpers.Respone(w, err.Error(), 500, true)
+		return
 	}
 
-	w.Write([]byte("Data berhasil disimpan"))
+	helpers.Respone(w, "Berhasil Save", 201, false)
 }

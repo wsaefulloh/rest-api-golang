@@ -6,7 +6,7 @@ Content-Type: application/json
 
 {
     "userName": "wsaefulloh2",
-    "password": "abcd1234"
+    "password": "abcd123l4"
 }
 
 
@@ -17,7 +17,7 @@ Content-Type: application/json
 {
     "Name": "Wahyu saefulloh",
     "Email": "saefuuloh@gmail.com",
-    "UserName": "wsaefulloh2",
+    "UserName": "wsaefulloh23",
     "Password": "abcd1234"
 }
 
