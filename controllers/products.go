@@ -16,6 +16,10 @@ type products struct {
 	rp repos.RepoProduct
 }
 
+type categories_copy struct {
+	rp repos.RepoCategory
+}
+
 func NewProduct(rps repos.RepoProduct) *products {
 	return &products{rps}
 }

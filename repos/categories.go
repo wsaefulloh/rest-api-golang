@@ -85,3 +85,28 @@ func (r *initRepoCategory) Edit(cate *models.Category, id string) error {
 
 	return nil
 }
+
+// func (r *initRepoCategory) GetCategory(id int) bool {
+// 	query := `SELECT "name" FROM public.categories WHERE "id"=$1`
+
+// 	rows, err := r.db.Query(query, id)
+
+// 	if err != nil {
+// 		fmt.Println(err)
+// 		return false
+// 	}
+
+// 	defer rows.Close()
+
+// 	var name string
+
+// 	for rows.Next() {
+// 		err := rows.Scan(&name)
+// 		if err != nil {
+// 			fmt.Println(err)
+// 			return false
+// 		}
+// 	}
+
+// 	return len([]rune(name)) != 0
+// }
