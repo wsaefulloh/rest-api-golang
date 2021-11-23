@@ -105,13 +105,3 @@ func (cate *categories) Update(w http.ResponseWriter, r *http.Request) {
 	// w.Write([]byte("Data berhasil diedit"))
 	helpers.Respone(w, "Categori berhasil diupdate", 200, false)
 }
-
-func (cate *categories) GetCategory(id int) bool {
-	value, _ := cate.rp.GetCategory(id)
-
-	if value == true {
-		return true
-	}
-
-	return false
-}
